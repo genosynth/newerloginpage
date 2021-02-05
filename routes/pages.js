@@ -14,4 +14,12 @@ router.get('/login', (req, res) => {
     res.render('login');
 })
 
+router.get('/protected', (req, res) => {
+    res.render('protected');
+})
+
+
+
+
+
 module.exports = router;

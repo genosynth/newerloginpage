@@ -97,7 +97,8 @@ exports.login = async (req, res) => {
 
                 res.cookie('jwt', token, cookieOptions);
                 //res.status(200).redirect("/")
-                 res.status(400).render('index', {
+                 res.status(400).render('protected', {
+                    name: name,
                     message:"Logged in as " + name
                 })
 
@@ -110,4 +111,8 @@ exports.login = async (req, res) => {
     } catch (error) {
         console.log(error);
     }
+
 }
+
+
+
