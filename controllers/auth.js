@@ -71,11 +71,12 @@ exports.login = async (req, res) => {
 
         db.query('SELECT * FROM users WHERE email = ?', [email], async (error, results) => {
             console.log(results);
-            if (!results || !(await bcrypt.compare(password, results[0].password)) ) 
-            res.status(401).render('login', {
+            if (results.length !=1 || !(await bcrypt.compare(password, results[0].password)) ) {
+                    res.status(401).render('login', {
                     message:"Email or Password is incorrect"
                 })
-         //}
+                
+         }
             else{ 
                 const id = results[0].id;
                 const name = results[0].name;
@@ -113,6 +114,7 @@ exports.login = async (req, res) => {
     }
 
 }
+
 
 
 
