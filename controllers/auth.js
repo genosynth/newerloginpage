@@ -1,14 +1,9 @@
-const mysql = require("mysql");
+
 const jwt = require('jsonwebtoken');
 const bcrypt = require("bcryptjs");
+const db = require("../dbConnect");
 
 
-const db = mysql.createConnection({
-    host: process.env.HOST ,
-    user: process.env.USER ,
-    password: process.env.PASSWORD,
-    database: process.env.DATABASE
-});
 
 exports.register = (req, res) => {
     console.log(req.body);
@@ -98,7 +93,7 @@ exports.login = async (req, res) => {
 
                 res.cookie('jwt', token, cookieOptions);
                 //res.status(200).redirect("/")
-                 res.status(400).render('protected', {
+                 res.status(400).render('index', {
                     name: name,
                     message:"Logged in as " + name
                 })
@@ -115,46 +110,7 @@ exports.login = async (req, res) => {
 
 }
 
-exports.protected =  (req, res) => {
-    var token = req.cookies.jwt;
-    if (!token) 
-        return res.status(401).render('login', {
-            message:"Please log in to view this page"
-        })
-    
-    jwt.verify(token, process.env.JWT_SECRET, function(err, decoded) {
-      if (err) 
-        return res.status(500).send({ auth: false, message: 'Failed to authenticate token.' });
-      
-      //return res.status(200).send(decoded);
-      console.log(decoded);  
-      const id = decoded.id
 
-      db.query('SELECT * FROM users WHERE id = ?', [id], async (error, results) => {
-        console.log(results);
-        
-         
-            
-            const name = results[0].name;
-
-            
-            //res.status(200).redirect("/")
-             res.status(400).render('protected', {
-                name: name,
-                message:"Logged in as " + name
-            })
-
-        
-        
-     
-        
-    })
-
-      //return res.render('protected', {
-        //message: 'Welcome'
-});
-  
-}
 
 exports.logOut = (req,res,) => {
     

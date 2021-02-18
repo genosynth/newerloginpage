@@ -7,7 +7,7 @@ router.post('/register', authController.register )
 
 router.post('/login', authController.login )
 
-router.get('/protected', authController.protected )
+//router.get('/protected', authController.protected )
 
 router.get('/logOut', authController.logOut )
 
